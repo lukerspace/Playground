@@ -1,8 +1,11 @@
 import React, { Component, Fragment } from "react";
 
 class Counter extends Component {
-  state = { count: 0, tags: ["tag1", "tag2", "tag3"] };
-  state2 = { tags: [] };
+  state = {
+    count: 0,
+    tags: ["love movie", "cartoon", "animation"],
+    movies: ["Starwar", "Lukeskywalker", "Avenger"],
+  };
   styles = {
     fontSize: 20,
     fontWeight: "bold",
@@ -20,13 +23,15 @@ class Counter extends Component {
   }
 
   renderTag() {
-    if (this.state2.tags.length === 0) return <span>There's no Tags</span>;
+    if (this.state.movies.length === 0) return <span>There's no Tags</span>;
     return (
-      <ul>
-        {this.state2.tags.map((tag) => (
-          <li key={tag}>{tag}</li>
+      <div>
+        {this.state.movies.map((tag) => (
+          <button className="btn btn-primary btn-sm m-1" key={tag}>
+            {tag}
+          </button>
         ))}
-      </ul>
+      </div>
     );
   }
 
@@ -35,36 +40,80 @@ class Counter extends Component {
   //     this.handleIncrement = this.handleIncrement.bind(this);
   //   }
 
-  handleIncrement = () => {
+  handleIncrement = (event) => {
     //   Method can't read the State(attribute) directly therefore we can't insert this.state.count which lead to undefined
     //   Binding event handler use Contructor to binding Even Handler
     //   Use Arrow Function
+    console.log(event);
     console.log("Event Handler Clicked", this);
     this.state.count++;
     this.setState({ count: this.state.count + 1 });
   };
+  handleDecrease = () => {
+    console.log("Event Decrease Clicked", this);
+    this.state.count--;
+    this.setState({ cont: this.state.count - 1 });
+  };
+
+  handleDelete = (movie) => {
+    console.log(movie);
+    const movies = this.state.movies.filter((m) => m !== movie);
+    console.log(movies);
+    this.setState({ movies });
+  };
 
   render() {
     return (
-      <div>
-        <button style={this.styles} className={this.getbtnClasses()}>
-          {this.formatCount()}
-        </button>
-        <button
-          onClick={this.handleIncrement}
-          className="btn btn-secondary btn-sm"
-        >
-          Increment
-        </button>
-        <ul>
-          {this.state.tags.map((tag) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
-        <hr></hr>
-        <div>{this.state2.tags.length === 0 && "Please Create Tags"} </div>
-        {this.renderTag()}
-      </div>
+      <Fragment>
+        <div>
+          <button style={this.styles} className={this.getbtnClasses()}>
+            {this.formatCount()}
+          </button>
+          <button
+            // Pass the argument therefore use arrow function to pass the argument on the onClick
+            onClick={() => this.handleIncrement({ id: 1 })}
+            className="btn btn-secondary btn-sm m-2"
+          >
+            Increment
+          </button>
+          <button
+            // Pass the argument therefore use arrow function to pass the argument on the onClick
+            onClick={() => this.handleDecrease()}
+            className="btn btn-secondary btn-sm"
+          >
+            Decrease
+          </button>
+          <div>
+            {this.state.tags.map((tag) => (
+              <button className="btn btn-success btn-sm m-1" key={tag}>
+                {tag}
+              </button>
+            ))}
+          </div>
+          <hr></hr>
+
+          <table className="table">
+            <tbody>
+              {this.state.movies.map((movie) => (
+                <tr key={movie}>
+                  <td>{movie}</td>
+                  <td>
+                    <button
+                      onClick={() => this.handleDelete(movie)}
+                      className="btn btn-danger btn-sm"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div>{this.state.movies.length === 0 && "Please Create Tags"} </div>
+          {this.renderTag()}
+        </div>
+      </Fragment>
     );
   }
 }
