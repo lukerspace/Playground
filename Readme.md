@@ -12,9 +12,9 @@
 
 #### react-jsx
 
-1. react jsx
+1. react jsx / react with jsx
 
-####　 nodejs
+#### nodejs
 
 1. index.js- node index.js to import different module
 
